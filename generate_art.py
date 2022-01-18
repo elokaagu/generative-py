@@ -1,8 +1,17 @@
 from PIL import Image, ImageDraw, ImageChops
 import random
+import colorsys
 
 def random_color():
-    return (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255) )
+
+    h = random.random()
+    s = 1
+    v = 1
+
+    float_rgb = colorsys.hsv_to_rgb(h, s, v)
+    rgb = [int(x * 255) for x in float_rgb]
+
+    return tuple(rgb)
 
 def interpolate(start_color, end_color, factor: float):
     reciprocal = 1 - factor
@@ -12,7 +21,7 @@ def interpolate(start_color, end_color, factor: float):
         int(start_color[2] * reciprocal + end_color[2] * factor),
     )
 
-def generate_art():
+def generate_art(path: str):
     print("Generating Art")
     image_size_px = 128
     padding_px = 16
@@ -82,7 +91,8 @@ def generate_art():
         overlay_draw.line(line_xy, fill=line_color, width=thickness)
         image = ImageChops.add(image, overlay_image)
         
-    image.save("test_image.png")
+    image.save(path)
 
 if __name__ == "__main__":
-    generate_art()
+    for i in range(10):
+        generate_art(f"test_image_{i}.png")
