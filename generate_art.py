@@ -15,16 +15,26 @@ def generate_art():
     # Draw some lines.
     draw = ImageDraw.Draw(image)
 
+    points = []
+
+    # Geberate the points
     for _ in range(10):
-        random_point_1 = (
+        random_point = (
             random.randint(0, image_size_px),
             random.randint(0, image_size_px),
             )
-        random_point_2 = (
-            random.randint(0, image_size_px), 
-            random.randint(0, image_size_px),
-            )
-        line_xy = (random_point_1,random_point_2)
+        points.append(random_point)
+
+    # Draw the points
+    for i, point in enumerate(points):
+        p1 = point
+        
+        if i == len(points) - 1:
+            p2 = points[0]
+        else:
+            p2 = points[i + 1]
+
+        line_xy = (p1,p2)
         line_color = ( 0, 0, 0)
         draw.line(line_xy, fill=line_color)
         
